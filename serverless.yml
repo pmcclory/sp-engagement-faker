@@ -1,0 +1,41 @@
+service: sp-engagement-faker
+
+plugins:
+  - serverless-python-requirements
+  - serverless-wsgi
+
+custom:
+  wsgi:
+    app: app.app
+    packRequirements: false
+
+provider:
+  name: aws
+  runtime: python3.6
+
+package:
+  include:
+    - handler.py
+    - app.py
+    - model.py
+    - util.py
+    - venv/**
+
+functions:
+  app:
+    handler: wsgi.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+    vpc:
+      securityGroupIds:
+        - sg-6f87b112
+      subnetIds:
+        - subnet-1eb42a33
+        - subnet-68efa121
+        - subnet-8728b9dc
+        - subnet-1117bf2d
+
+    environment:
+      REDIS_HOST: ${env:REDIS_HOST}
+

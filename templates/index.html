@@ -1,0 +1,38 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Engagement Faker{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+  <h1>Engagement Faker</h1>
+  <table class="table">
+    <thead>
+      <tr>
+         <th scope="col">Subject</th>
+         <th scope="col">Received</th>
+         <th scope="col">Engaged</th>
+         <th scope="col">Engagement Rate</th>
+      </tr>
+      <tbody>
+        {% for i in range(subjects|length) %}
+          <tr id="row{{ i }}">
+            <th scope="row" id="subject">{{ subjects[i]['subject'] }}</th>
+            <th><input id="inject_count" type="text" class="subject" value="{{ subjects[i]['inject_count'] }}"/></th>
+            <th><input id="engage_count" type="text" value="{{ subjects[i]['engage_count'] }}"/></th>
+            <th><input id="engage_percent" type="text" value="{{ subjects[i]['engage_percent'] }}"/><th>
+            <th><button type="button" class="btn btn-primary" onclick="update({{ i }})">Update</button></th>
+            <th><button type="button" class="close" aria-label="Close" onclick="deleteRow({{ i }})"><span aria-hidden="true">&times;</span></button></th>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </thead>
+  </table>
+{% endblock %}
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{{url_for('.static', filename='scripts.js')}}"></script>
+{% endblock %}
